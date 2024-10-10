@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['8000-angelaanjor-boutiqueado-j00qtp1kpft.ws-eu116.gitpod.io']
 
+CSRF_TRUSTED_ORIGINS = ['https://8000-angelaanjor-boutiqueado-j00qtp1kpft.ws-eu116.gitpod.io']
 
 # Application definition
 
