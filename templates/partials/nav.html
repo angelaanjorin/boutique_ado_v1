@@ -1,14 +1,18 @@
 {% load static %}
 <header class="container-fluid">
     <div id="delivery-banner" class="row text-center">
-        <div class="col bg-black text-white">
-            <h4 class="logo-font my-1">Free delivery on orders over €{{ free_delivery_threshold }}!</h4>
+        <div class="col bg-licorice text-white">
+            <h4 class="logo-font my-1">Free delivery on orders over €{{ free_delivery_threshold }}!</h4>        
+            <div class="header-ticker">
+                <h4 class="ticker-text logo-font">Halloween Sales!</h4>
+                <h4 class="ticker-text logo-font">Get up to 55% off! Code: HW55 </h4>
+            </div> 
         </div>
     </div>
     <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
             <a href="{% url 'home' %}" class="nav-link">
-                <img src="{% static 'images/logo.png' %}" alt="Image of an open book" class="logo-img">
+                <img src="{% static 'images/logo.png' %}" alt="logo of hair hotty" class="logo-img">
             </a>
         </div>
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">

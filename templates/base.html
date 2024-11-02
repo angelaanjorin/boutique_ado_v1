@@ -44,67 +44,7 @@
     {% block content %}
     {% endblock %}
     <footer class="text-center text-lg-start" id="footer">
-        <div class="container d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <div class="me-5 d-none d-lg-block">
-                <span>JOIN US</span>
-            </div>
-            <div id="social-links">
-                <a href="https://www.facebook.com/profile.php?id=61554036458390" target="_blank" rel="noopener"
-                    class="me-4 text-reset text-white" aria-label="Link to Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://twitter.com/" target="_blank" rel="noopener" class="me-4 text-reset" aria-label="Link to Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="me-4 text-reset" aria-label="Link to Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="me-4 text-reset" aria-label="Link to LinkedIn">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-            </div>
-        </div>
-        <div class="container  mt-5">
-            <div class="row mt-3 d-flex align-items-center">
-                <div class="col-md-4 col-lg-4 mx-auto mb-4 text-sm-center ">
-                    <h4 class="fw-bold mb-4">Hair Hotty</h4>
-                    <h5 class="fw-bold mb-4">Contact:</h5>
-                    <p class="mb-0"><i class="fas fa-home me-3 text-white"></i>
-                        13 Imaginary Street,
-                        <br>
-                        Dublin, Ireland
-                    </p>
-                    <p class="mb-0"><i class="fas fa-phone me-3 text-white"></i>Phone: 01 123456</p>
-                    <p><i class="fas fa-envelope me-3 text-white"></i>Email: bookheavenpp5@gmail.com</p>
-                </div>
-                <div class="col-md-3 col-lg-2 d-flex justify-content-center ">
-                    <ul class="list-unstyled custom-list">
-                        <li><a class="text-decoration-none text-start text-white" href="">About Us</a></li>
-                        <li><a class="text-decoration-none text-start text-white" href="">FAQ</a></li>
-                        <li><a class="text-decoration-none text-start text-white" href="">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-lg-2 d-flex justify-content-center ">
-                    <ul class="list-unstyled custom-list">
-                        <li><a class="text-decoration-none text-start text-black"
-                                href="">Fiction</a></li>
-                        <li><a class="text-decoration-none text-start text-black"
-                                href="">Non-Fiction</a></li>
-                        <li><a class="text-decoration-none text-start text-black"
-                                href="">Children</a></li>
-                    </ul>
-                </div>
-                <div class="col-12 col-lg-2 d-flex justify-content-center mb-4">
-                    <img src="{% static 'images/stripe.png' %}" alt="Powered by Stripe" class="stripe-img">
-                </div>
-            </div>
-        </div>
-        <div class="text-center copyright">
-            <p class="mb-0">&copy; Copyright School Project <a href="https://github.com/Dayana-N/Book-Heaven-PP5" target="_blank"
-                    rel="noopener" class="me-4 text-reset" aria-label="Link to GitHub">
-                    <i class="fab fa-github"></i>
-                </a></p>
-        </div>
+       {% include 'partials/footer.html' %}
     </footer>
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/f6549ef1f7.js" crossorigin="anonymous"></script>
@@ -119,6 +59,7 @@
     <!-- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
     <script src="{% static 'js/toast.js' %}"></script>
+    <script src="{% static 'js/banner.js' %}"></script>
     {% block extra_js %}
     {% endblock %}
 </body>
