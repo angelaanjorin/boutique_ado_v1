@@ -21,7 +21,7 @@
                                 <tr>
                                     <th scope="col">Item</th>
                                     <th scope="col"></th>
-                                    <th scope="col">Price</th>
+                                    <th scope="col">Singel Price</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Sub-total</th>
                                     <th scope="col"></th>
@@ -42,12 +42,12 @@
                                     </td>
                                     <td>
                                         <div class="cart-item-price">
-                                            <p>{{ item.product.price }}</p>
+                                            <p> ${{ item.product.price }}</p>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="cart-item-quantity">
-                                            <form action="{% url 'adjust_bag' item.item_id %}" method="POST">
+                                            <form action="{% url 'adjust_bag' item.product.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <select name="quantity">
                                                     <option value="1" {% if item.quantity == 1 %} selected {% endif %}>1</option>
@@ -68,11 +68,11 @@
                                     </td>
                                     <td>
                                         <div class="cart-item-total-price">
-                                            <p>€{{ item.product.price|calc_subtotal:item.quantity }}</p>
+                                            <p>${{ item.product.price|calc_subtotal:item.quantity }}</p>
                                         </div>
                                     </td>
                                     <td>
-                                        <form action="{% url 'remove_from_bag' item.item.id %}" method="POST">
+                                        <form action="{% url 'remove_from_bag' item.product.id %}" method="POST">
                                             {% csrf_token %}
                                             <button type="submit" aria-label="remove item"><i class="fa-solid fa-trash-can"
                                                     style="color: #e66e2d;"></i></button>
