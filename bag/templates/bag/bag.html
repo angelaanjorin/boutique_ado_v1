@@ -1,223 +1,150 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% load bag_tools %}
 
-{% block title %} Shopping Cart {% endblock title %}
-{% block content %}
-<section class="cart my-4">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h3>Shopping Cart</h3>
-                <hr>
-            </div>
-            {% if bag_items %}
-            <div class="row d-flex justify-content-md-between justify-content-center">
-                <div class="col-12 col-lg-8 p-0 ">
-                    <div class="custom-border p-3">
-                        <!-- Medium screens -->
-                        <table class="table cart d-none d-sm-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Item</th>
-                                    <th scope="col"></th>
-                                    <th scope="col">Singel Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Sub-total</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in bag_items %}
-                                <tr>
-                                    <th scope="row">
-                                        <div class="cart-item-picture">
-                                            <img class="img-fluid rounded" src="{{ item.product.image.url }}">
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div class="cart-item-description">
-                                            <p class="my-0"><strong>{{ item.product.name }}</strong></p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cart-item-price">
-                                            <p> ${{ item.product.price }}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cart-item-quantity">
-                                            <form action="{% url 'adjust_bag' item.product.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <select name="quantity">
-                                                    <option value="1" {% if item.quantity == 1 %} selected {% endif %}>1</option>
-                                                    <option value="2" {% if item.quantity == 2 %} selected {% endif %}>2</option>
-                                                    <option value="3" {% if item.quantity == 3 %} selected {% endif %}>3</option>
-                                                    <option value="4" {% if item.quantity == 4 %} selected {% endif %}>4</option>
-                                                    <option value="5" {% if item.quantity == 5 %} selected {% endif %}>5</option>
-                                                    <option value="6" {% if item.quantity == 6 %} selected {% endif %}>6</option>
-                                                    <option value="7" {% if item.quantity == 7 %} selected {% endif %}>7</option>
-                                                    <option value="8" {% if item.quantity == 8 %} selected {% endif %}>8</option>
-                                                    <option value="9" {% if item.quantity == 9 %} selected {% endif %}>9</option>
-                                                    <option value="10" {% if item.quantity == 10 %} selected {% endif %}>10</option>
-                                                </select>
-                                                <button type="submit" aria-label="update quantity"><i class="fa-solid fa-rotate-right"
-                                                        style="color: #e66e2d;"></i></button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cart-item-total-price">
-                                            <p>${{ item.product.price|calc_subtotal:item.quantity }}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <form action="{% url 'remove_from_bag' item.product.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <button type="submit" aria-label="remove item"><i class="fa-solid fa-trash-can"
-                                                    style="color: #e66e2d;"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <!-- Mobile
-                        <table class="table cart d-table d-sm-none">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Item</th>
-                                    <th scope="col"></th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Sub-total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in cart_items %}
-                                <tr>
-                                    <th scope="row">
-                                        <div class="cart-item-picture">
-                                            <img src="{{ item.book.book_image }}" alt="{{ item.book.title }} image">
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div class="cart-item-description">
-                                            <p><a href="{% url 'product' item.book.id %}">{{ item.book.title }}</a></p>
-                                            {% for author in item.book.author.all|slice:':1' %}
-                                            <p>{{ author }}</p>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="cart-item-quantity">
-                                            <div class="cart-item-quantity">
-                                                <form action="{% url 'update-cart' item.item.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <select name="quantity">
-                                                        <option value="1" {% if item.quantity == 1 %} selected {% endif %}>1</option>
-                                                        <option value="2" {% if item.quantity == 2 %} selected {% endif %}>2</option>
-                                                        <option value="3" {% if item.quantity == 3 %} selected {% endif %}>3</option>
-                                                        <option value="4" {% if item.quantity == 4 %} selected {% endif %}>4</option>
-                                                        <option value="5" {% if item.quantity == 5 %} selected {% endif %}>5</option>
-                                                        <option value="6" {% if item.quantity == 6 %} selected {% endif %}>6</option>
-                                                        <option value="7" {% if item.quantity == 7 %} selected {% endif %}>7</option>
-                                                        <option value="8" {% if item.quantity == 8 %} selected {% endif %}>8</option>
-                                                        <option value="9" {% if item.quantity == 9 %} selected {% endif %}>9</option>
-                                                        <option value="10" {% if item.quantity == 10 %} selected {% endif %}>10</option>
-                                                    </select>
-                                                    <button type="submit" aria-label="update quantity"><i class="fa-solid fa-rotate-right"
-                                                            style="color: #e66e2d;"></i></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cart-item-price">
-                                            <p>{{ item.product.product_price }}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cart-item-total-price">
-                                            <p>€{{ item.book.product_price|calc_subtotal:item.quantity }}</p>
-                                            <form action="{% url 'remove-item-cart' item.product.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <button type="submit" aria-label="remove item"><i class="fa-solid fa-trash-can"
-                                                        style="color: #e66e2d;"></i></button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>-->
-                    </div>
-                    {% if free_delivery_delta > 0 %}
-                    <p class="mt-5 text-orange text-end">Spend €{{ free_delivery_delta|floatformat:2 }} more for free delivery!</p>
-                    {% else %}
-                    {% endif %}
-                </div>
-                <div class="col-12 col-md-8 col-lg-3 mt-3 mt-lg-0 custom-border p-4">
-                    <div class="row">
-                        <div class="col-12">
-                            {% if discount_amount > 0 %}
-                            <p class="text-success">Discount code applied.</p>
-                            <a href="#" class="btn btn-sm btn-brown"><i class="fa-solid fa-trash-can"></i>
-                                Remove</a>
-                            {% else %}
-                            <form action="#" method="POST" class="d-flex flex-column">
-                                {% csrf_token %}
-                                <label for="discount-code">Discount Code</label>
-                                <input class="mb-md-0 mb-2" type="text" name="discount-code" id="discount-code">
-                                <button type="submit" class="btn btn-orange mt-md-2" aria-label="add discount code">Add</button>
-                            </form>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-12">
-                            {% if discount_amount > 0 %}
-                            <div class="discount d-flex justify-content-between">
-                                <p class="text-success fw-bold">Discount:</p>
-                                <p class="text-success fw-bold">- €{{ discount_amount|floatformat:2 }}</p>
-                            </div>
-                            {% endif %}
-                            <div class="subtotal d-flex justify-content-between">
-                                <p>SubTotal:</p>
-                                <p>€{{ total|floatformat:2 }}</p>
-                            </div>
-                            <div class="delivery d-flex justify-content-between">
-                                <p>Delivery:</p>
-                                <p>€{{ delivery_fee|floatformat:2 }}</p>
-                            </div>
-                            <hr>
-                            <div class="total d-flex justify-content-between">
-                                <h5>Total:</h5>
-                                <h5>€{{ grand_total|floatformat:2 }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <a href="{% url 'checkout' %}" class="btn btn-orange my-2"><i class="fa-solid fa-cart-shopping"
-                                style="color: #fff;"></i> Checkout</a>
-                        <a href="{% url 'products' %}" class="btn btn-gray">
-                            <i class="fa-solid fa-arrow-left" style="color: #fff;"></i>Continue Shopping</a>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <div class="row d-flex justify-content-md-between justify-content-center">
-                <div class="col-12 col-lg-8 p-0 mx-auto">
-                    <div class="custom-border p-5">
-                        <div class="text-center">
-                            <h5>Your cart is empty.</h5>
-                            <a href="{% url 'products' %}" class="btn btn-orange mt-2"><i class="fa-solid fa-arrow-left"
-                                    style="color: #fff;"></i> Continue
-                                Shopping</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
         </div>
     </div>
-</section>
-{% endblock content %}
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container mb-2">
+        <div class="row">
+            <div class="col">
+                <hr>
+                <h2 class="logo-font mb-4">Shopping Bag</h2>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {% if bag_items %}
+                    <div class="d-block d-md-none">
+                        <div class="row">
+                            <div class="col">
+                                {% include "bag/bag-total.html" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {% include "bag/checkout-buttons.html" %}
+                                <p class="text-muted mb-5">A summary of your bag contents is below</p>
+                            </div>
+                        </div>
+                        {% for item in bag_items %}
+                            <div class="row">
+                                <div class="col-12 col-sm-6 mb-2">
+                                    {% include "bag/product-image.html" %}
+                                </div>
+                                <div class="col-12 col-sm-6 mb-2">
+                                    {% include "bag/product-info.html" %}
+                                </div>
+                                <div class="col-12 col-sm-6 order-sm-last">
+                                    <p class="my-0">Price Each: ${{ item.product.price }}</p>
+                                    <p><strong>Subtotal: </strong>${{ item.product.price | calc_subtotal:item.quantity }}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    {% include "bag/quantity-form.html" %}
+                                </div>
+                            </div>
+                            <div class="row"><div class="col"><hr></div></div>
+                        {% endfor %}
+                        <div class="btt-button shadow-sm rounded-0 border border-black">
+                            <a class="btt-link d-flex h-100">
+                                <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
+                            </a>	
+                        </div>
+                    </div>
+                    <div class="table-responsive rounded d-none d-md-block">
+                        <table class="table table-sm table-borderless">
+                            <thead class="text-black">
+                                <tr>
+                                    <th scope="col">Product Info</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Subtotal</th>
+                                </tr>
+                            </thead>
+
+                            {% for item in bag_items %}
+                                <tr>
+                                    <td class="p-3 w-25">
+                                        {% include "bag/product-image.html" %}
+                                    </td>
+                                    <td class="py-3">
+                                        {% include "bag/product-info.html" %}
+                                    </td>
+                                    <td class="py-3">
+                                        <p class="my-0">${{ item.product.price }}</p>
+                                    </td>
+                                    <td class="py-3 w-25">
+                                        {% include "bag/quantity-form.html" %}
+                                    </td>
+                                    <td class="py-3">
+                                        <p class="my-0">${{ item.product.price | calc_subtotal:item.quantity }}</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="5" class="pt-5 text-right">
+                                    {% include "bag/bag-total.html" %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-right">
+                                    {% include "bag/checkout-buttons.html" %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="lead mb-5">Your bag is empty.</p>
+                    <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                        <span class="icon">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                        <span class="text-uppercase">Keep Shopping</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script type="text/javascript">
+    $('.btt-link').click(function(e) {
+        window.scrollTo(0,0)
+    })
+</script>
+{% include 'products/includes/quantity_input_script.html' %}
+
+<script type="text/javascript">
+    // Update quantity on click
+    $('.update-link').click(function(e) {
+        var form = $(this).prev('.update-form');
+        form.submit();
+    })
+
+    // Remove item and reload on click
+    $('.remove-item').click(function(e) {
+        var csrfToken = "{{ csrf_token }}";
+        var itemId = $(this).attr('id').split('remove_')[1];
+        var size = $(this).data('product_size');
+        var url = `/bag/remove/${itemId}/`;
+        var data = {'csrfmiddlewaretoken': csrfToken, 'product_size': size};
+
+        $.post(url, data)
+         .done(function() {
+             location.reload();
+         });
+    })
+</script>
+{% endblock %}
