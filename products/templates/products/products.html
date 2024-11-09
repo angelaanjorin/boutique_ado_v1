@@ -1,146 +1,137 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block extra_title %}- Products{% endblock %}
 
-{% block page_header %}
-    <div class="container header_container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
-{% endblock%}
-
-{% block extra_css %}{% endblock extra_css %}
+{% block extra_meta %}
+    <meta name="description" content="WELCOME TO ISLAND BEES! Check out our fantastic range of products.">
+{% endblock %}
 
 {% block content %}
-    <div class="overlay"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col text-center mt-3">
-                <h2 class="logo-font">Products</h2>
-                {% for c in current_categories %}
-                    <a class="category-badge text-decoration-none" href="{% url 'products' %}?category={{ c.name }}">
-                        <span class="p-2 mt-2 badge badge-white text-black rounded-0 border border-dark">{{ c.friendly_name }}</span>
-                    </a>
-                {% endfor %}
-                <hr class= "mb-1">
+
+<!-- Products Page Content -->
+<div class="container-fluid ib-container bg-light-grey text-dark-grey px-3 px-md-4 py-4" id="products-div">
+    
+    <div class="row">
+
+        <!-- Title -->
+        <div class="col-12">
+            <h1 class="font-title weight-bold section-title-lrg mb-2 text-center">PRODUCTS</h1>
+        </div>
+
+        <!-- Category Name -->
+        {% if current_category %}
+        <div class="col">
+            <div class="category-label font-body d-flex text-blue text-decoration-none mx-auto">
+                <div class="bg-blue category-icon-circle me-2">
+                    <i class="fas fa-{% if current_category.name == 'the_bees' %}bug{% elif current_category.name == 'the_kit' %}box-archive{% elif current_category.name == 'courses' %}graduation-cap{% elif current_category.name == 'produce' %}jar{% else %}shop{% endif %} text-ib-light text-center"></i>
+                </div>
+                <p class="font-title weight-semibold section-title text-uppercase lh-1">{{ current_category.friendly_name }}</p>
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="product-container col-10">
-                <!-- Product sort -->
-                 <div class="row mx-2">
-                    <div class="col-12 col-md-6 my-auto order-md-last d-flex justify-content-center justify-content-md-end">
-                        <div class="sort-select-wrapper">
-                            <select class="form-select" id="sort-selector">
-                                <option value="reset" {% if current_sorting == 'None_None' %}selected{% endif %}>Sort by...</option>
-                                <option value="price_asc" {% if current_sorting == 'price_asc' %}selected{% endif %}> Price (low to high)</option>
-                                <option value="price_desc" {% if current_sorting == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
-                                <option value="rating_asc" {% if current_sorting == 'rating_asc' %}selected{% endif %}>Rating (low to high)</option>
-                                <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Rating (high to low)</option>
-                                <option value="category_asc" {% if current_sorting == 'category_asc' %}selected{% endif %}>Category (A-Z)</option>
-                                <option value="category_desc" {% if current_sorting == 'category_desc' %}selected{% endif %}>Category (Z-A)</option>
-                            </select>
-                        </div>
+        {% endif %}
+    </div>
+
+    <!-- Product Container -->
+    <div class="row">
+        <div class="product-container">
+
+            <!-- No. of products & sort-dropdown -->
+            <div class="row mt-1 mb-2">
+                <!-- Sort-dropdown -->
+                <div class="col-12 col-md-6 my-auto order-md-last d-flex justify-content-center justify-content-md-end mt-1 mt-md-3 mt-md-0">
+                    <div class="sort-select-wrapper w-75 w-md-50 box-border-{% if current_sorting != 'None_None' %}deselected{% else %}selected{% endif %}">
+                        <select id="sort-selector" class="custom-select custom-select-sm rounded-0 font-body tex-dark-grey" aria-label="Sort products - choose a sort type">
+                            <option value="reset" {% if current_sorting == 'None_None' %}selected{% endif %}>Sort by...</option>
+                            <option value="price_asc" {% if current_sorting == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
+                            <option value="price_desc" {% if current_sorting == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
+                            <option value="rating_asc" {% if current_sorting == 'rating_asc' %}selected{% endif %}>Rating (low to high)</option>
+                            <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Rating (high to low)</option>
+                            <option value="name_asc" {% if current_sorting == 'name_asc' %}selected{% endif %}>Name (A-Z)</option>
+                            <option value="name_desc" {% if current_sorting == 'name_desc' %}selected{% endif %}>Name (Z-A)</option>
+                            <option value="category_asc" {% if current_sorting == 'category_asc' %}selected{% endif %}>Category (A-Z)</option>
+                            <option value="category_desc" {% if current_sorting == 'category_desc' %}selected{% endif %}>Category (Z-A)</option>
+                        </select>
                     </div>
-                    <div class="col-12 col-md-6 order-md-first">
-                        <p class="text-muted mt-3 text-center text-md-left">
-                            {{ products_count }} Products
-                        </p>
-                    </div>
-                 </div>
-                 <!-- Product sort end -->
-                <div class="row pb-4">
-                    {% for product in products %}
-                    <!-- Product Card -->
-                        <div class="col-md-6 col-lg-4 gy-3">
-                            <div class="card shadow product-card h-100">
-                                <div  class="card-category-label mb-1 position-absolute">
-                                    <a href="{% url 'products' %}?category={{ product.category.name }}" class="category-badge m-2 d-flex text-decoration-none align-items-center">
-                                        <span class="p-2 weight-semibold text-uppercase badge badge-white text-black rounded-0 border border-dark">{{ product.category.friendly_name }}</span>
-                                    </a>
-                                </div>
+                </div>
+                <!-- Products link & No. of Products -->
+                <div class="col-12 col-md-6 order-md-first d-flex align-items-end justify-content-center justify-content-md-start my-2 my-md-0">
 
-                                <!-- Product Image -->
-                                 {% if product.image %}
-                                    <a href="{% url 'product_detail' product.id %}">
-                                        <img class="image-ratio img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}no_image.jpg'">
-                                    </a>
-                                 {% else %}
-                                    <a href="{% url 'product_detail' product.id %}">
-                                        <img class="image-ratio img-fluid" src="{{ MEDIA_URL }}no_image.jpg" alt="{{ product.name }}">
-                                    </a>
-                                {% endif %}
+                        {% if search_term or current_category or current_sorting != 'None_None' %}
+                            <a href="{% url 'products' %}" class="text-blue"><p class="small text-center font-body text-md-start mt-2 mt-md-0 weight-semibold me-2 ib-lh-1">ALL PRODUCTS </p></a>
+                            <p class="product-count text-center font-body text-md-start mt-2 mt-md-0 weight-semibold me-2 ib-lh-1">|</p>
+                        {% endif %}
+                        <p class="product-count text-center font-body text-md-start mt-2 mt-md-0 ib-lh-1">{{ products|length }} Products{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}</p>
+                </div>
+            </div>
 
-                                 <!-- Product Name -->
-                                <div class="card-body bg-ib-white pb-2">
-                                    <h1 class="text-uppercase text-center weight-semibold text-ib-dark">{{ product.name }}</h1>
-                                </div>
+            <!-- Product Cards Container -->
+            <div class="row pb-4">
 
-                                <!-- Card Footer - Rating, Price & Edit/Delete -->
-                                <div class="card-footer pt-0 pb-3">
+                <!-- Product Card -->
+                {% for product in products %}
+                    <div class="col-md-6 col-lg-4 gy-3">
+                        <div class="card shadow product-card h-100">
+                            <div class="card-category-label mb-1 position-absolute">
+                                <a href="{% url 'products' %}?category={{ product.category.name }}" class="font-body d-flex text-blue text-decoration-none align-items-center">
+                                    <div class="bg-blue category-icon-circle-sm me-1">
+                                        <i class="fas fa-{% if product.category.name == 'the_bees' %}bug{% elif product.category.name == 'the_kit' %}box-archive{% elif product.category.name == 'courses' %}graduation-cap{% elif product.category.name == 'produce' %}jar{% else %}shop{% endif %} text-ib-light text-center"></i>
+                                    </div>
+                                    <p class="font-title weight-semibold section-title text-uppercase">{{ product.category.friendly_name }}</p>
+                                </a>
+                            </div>
 
-                                    <div class="row">
-                                        <div class="col-6 pe-0">
-                                            
-                                            <!-- Product Rating -->
-                                            <div class="rating-div pe-0">
-                                            {% if product.rating %}
-                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                                            {% else %}
-                                                <small class="text-muted">No Rating</small>
-                                            {% endif %}
-                                            </div>
+                            <!-- Product Image -->
+                            {% if product.image %}
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <img class="image-ratio img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}no_image.jpg'">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <img class="image-ratio img-fluid" src="{{ MEDIA_URL }}no_image.jpg" alt="{{ product.name }}">
+                                </a>
+                            {% endif %}
+
+                            <!-- Product Name -->
+                            <div class="card-body bg-ib-white pb-2">
+                                <h1 class="text-uppercase text-center font-body weight-semibold text-ib-dark">{{ product.name }}</h1>
+                            </div>
+
+                            <!-- Card Footer - Rating, Price & Edit/Delete -->
+                            <div class="card-footer pt-0 pb-3">
+
+                                <div class="row">
+                                    <div class="col-6 pe-0">
+                                        
+                                        <!-- Product Rating -->
+                                        <div class="rating-div pe-0">
+                                            <span class="rating-hex-small rating-hex-{% if product.rating >= 1 %}true{% else %}false{% endif %}">&#x2B22;</span>
+                                            <span class="rating-hex-small rating-hex-{% if product.rating >= 2 %}true{% else %}false{% endif %}">&#x2B22;</span>
+                                            <span class="rating-hex-small rating-hex-{% if product.rating >= 3 %}true{% else %}false{% endif %}">&#x2B22;</span>
+                                            <span class="rating-hex-small rating-hex-{% if product.rating >= 4 %}true{% else %}false{% endif %}">&#x2B22;</span>
+                                            <span class="rating-hex-small me-1 rating-hex-{% if product.rating >= 5 %}true{% else %}false{% endif %}">&#x2B22;</span>
                                         </div>
+                                    </div>
 
-                                        <div class="col-6 ps-0 mt-auto d-flex justify-content-end">
-                                            <!-- Product Price -->
-                                            <div class=""><p class="card-price weight-semibold ib-lh-1 text-ib-dark">${{ product.price }}</p></div>
-                                        </div>
+                                    <div class="col-6 ps-0 mt-auto d-flex justify-content-end">
+                                        <!-- Product Price -->
+                                        <div class=""><p class="card-price weight-semibold ib-lh-1 text-ib-dark">£{{ product.price }}</p></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
-                    <!-- End of Product card -->
-                </div>
-                <!-- End of Product Cards Container-->
+                    </div>
+                {% endfor %}
+                <!-- End of Product Card -->
             </div>
+            <!-- End of Product Cards Container -->
         </div>
     </div>
-     <!-- Pagination -->
-     <div class="row">
-        <div class="col-md-12">
-            {% if products.has_other_pages %}
-            <ul class="pagination justify-content-center">
-                {% if products.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1">&laquo;First</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;Previous</a>
-                </li>
-                {% endif %}
-                <li class="page-item active" aria-current="page">
-                    <span class="page-link">Page {{ products.number }} of
-                        {{ products.paginator.num_pages }}</span>
-                </li>
-                {% if products.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ products.next_page_number }}">&raquo;Next</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ products.paginator.num_pages }}">Last &raquo;</a>
-                </li>
-                {% endif %}
-            </ul>
-            {% endif %}
-        </div>
-    </div>
+</div>
+
 {% endblock %}
 
-{% block extra_js %}
-{{ block.super }}
-<script src="{% static 'js/products.js' %}"></script>
-{% endblock%}
+{% block extra_js_end %}
+    <!-- Sort Box JS -->
+    <script src="{% static 'products/js/sort_box.js' %}"></script>
+{% endblock %}
