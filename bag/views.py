@@ -8,7 +8,14 @@ from products.models import Product
 def view_bag(request):
     """ A view that renders the bag contents page """
 
-    return render(request, 'bag/bag.html')
+    # Tells toast message which page user is on
+    # To set toast bag summary button link
+    context = {
+        'on_bag_page': True
+    }
+
+    return render(request, 'bag/bag.html', context)
+
 
 def add_to_bag(request, item_id):
     """ Add a quantity of the specified product to the shopping bag """
