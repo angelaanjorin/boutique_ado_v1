@@ -61,7 +61,7 @@
                             <a href="{% url 'products' %}" class="text-blue"><p class="small text-center font-body text-md-start mt-2 mt-md-0 weight-semibold me-2 ib-lh-1">ALL PRODUCTS </p></a>
                             <p class="product-count text-center font-body text-md-start mt-2 mt-md-0 weight-semibold me-2 ib-lh-1">|</p>
                         {% endif %}
-                        <p class="product-count text-center font-body text-md-start mt-2 mt-md-0 ib-lh-1">{{ products|length }} Products{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}</p>
+                        <p class="product-count text-center font-body text-md-start mt-2 mt-md-0 ib-lh-1">{{ products_count }} Products{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}</p>
                 </div>
             </div>
 

@@ -1,0 +1,23 @@
+{% load widget_tweaks %}
+<div class="row review">
+    <div class="col-12 col-md-8">
+        <form class="mb-3" action="{% url 'add_review' product.id %}" method="POST">
+            {% csrf_token %}
+            <div class="form-floating mb-2">
+                {% render_field review_form.rating|add_required_class:"is-required" class="form-select" %}
+                <label for="{{  review_form.rating.id_for_label }}" class="form-label">Rating:*</label>
+                {% for error in  review_form.rating.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-floating mb-2">
+                {% render_field review_form.review|add_required_class:"is-required" class="form-control" %}
+                <label for="{{  review_form.review.id_for_label }}" class="form-label">Review*</label>
+                {% for error in  review_form.review.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-orange ps-2">Submit</button>
+        </form>
+    </div>
+</div>

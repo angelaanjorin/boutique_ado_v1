@@ -96,9 +96,85 @@
             </div>
         </div>
     </div>
-{% endblock %}
+      <!-- Displaying Comments -->
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <h3>Reviews:</h3>
+      <div class="card-body">
+        <!-- We want a for loop inside the empty control tags
+          to iterate through each comment in comments -->
+        {% for review in reviews %}
+        <div class="p-2 comments">
+          <p class="font-weight-bold">
+            {{ review.user }}
+            <span class="font-weight-normal">
+              {{ review.created_on }}
+            </span> wrote:
+          </p>
+          <div id="review{{ review.id }}">
+            {{ review.content | linebreaks }}
+          </div>
+          <div class="row font-body review-content">
+            <p>{{ review.content }}</p>
+          </div>
+          {% if user.is_authenticated and review.user == user %}
+          <button class="btn btn-delete"review_id="{{ review.id }}">Delete</button>
+          <button class="btn btn-edit" review_id="{{ review.id }}">Edit</button>
+          {% endif %}
+        </div>
+        <!-- Our for loop ends here -->
+        {% endfor %}
+      </div>
+    </div>
+    <!-- Creating New Comments -->
+    <div class="col-md-4 card mb-4 mt-3">
+      <div class="card-body">
+        {% if user.is_authenticated %}
+        <h3>Leave a review:</h3>
+        <div class="col-12">
+          <a href="{% url 'add_review' product.id %}" class="ib-button ib-button-yellow text-decoration-none text-dark-grey font-title weight-bold shadow-sm">
+              ADD REVIEW
+          </a>
+      </div>
+        <p>Posting as: {{ user.username }}</p>
+        <form id="reviewForm" method="post"
+          style="margin-top: 1.3em;">
+          {{ review_form | crispy }}
+          {% csrf_token %}
+          <button id="submitButton" type="submit"
+            class="btn btn-signup btn-lg">Submit</button>
+        </form>
+        {% else %}
+        <!--Log in to leave a comment as link to login page-->
+        <a class="link" href="{{ login_url }}">Login to leave a review</a> 
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"
+          id="deleteModalLabel">Delete review?</h5>
+        <button type="button" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete your review?
+        This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <a id="deleteConfirm" href="#" class="btn
+          btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-{% block postloadjs %}
-{{ block.super }}
-{% include 'static/js/quantity_inputs.js' %}
-{% endblock %}
+{% endblock content %}
