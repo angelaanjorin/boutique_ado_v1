@@ -3,12 +3,12 @@
     <div class="col-12 col-md-8">
         <form class="mb-3" action="{% url 'add_review' product.id %}" method="POST">
             {% csrf_token %}
-            <div class="form-floating mb-2">
-                {% render_field review_form.rating|add_required_class:"is-required" class="form-select" %}
-                <label for="{{  review_form.rating.id_for_label }}" class="form-label">Rating:*</label>
-                {% for error in  review_form.rating.errors %}
-                <span class="text-danger">{{ error }}</span>
-                {% endfor %}
+            <div class="rating-div form-floating mb-2">
+                <button type="submit" class="rating-hex fa fa-star fa-2x my-btn" id="first"></button>
+                <button type="submit" class="rating-hex fa fa-star fa-2x my-btn" id="second"></button>
+                <button type="submit" class="rating-hex fa fa-star fa-2x my-btn" id="third"></button>
+                <button type="submit" class="rating-hex fa fa-star fa-2x my-btn" id="fourth"></button>
+                <button type="submit" class="rating-hex fa fa-star fa-2x my-btn" id="fifth"></button>
             </div>
             <div class="form-floating mb-2">
                 {% render_field review_form.review|add_required_class:"is-required" class="form-control" %}
@@ -17,7 +17,11 @@
                 <span class="text-danger">{{ error }}</span>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-orange ps-2">Submit</button>
+            <button type="submit" class="btn btn-cordovan ps-2">Submit</button>
         </form>
     </div>
 </div>
+{% block extra_js_end %}
+    <!-- Rating Selector JS -->
+    <script src="{% static 'reviews/js/ratings_select.js' %}"></script>
+{% endblock %}

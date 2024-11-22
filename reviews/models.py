@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import (
     MaxValueValidator, MinValueValidator
 )
-from django.contrib.auth.models import User
+from profiles.models import UserProfile
 from products.models import Product
 
 
@@ -16,7 +16,7 @@ class Review(models.Model):
         related_name="reviews",
     )
     user = models.ForeignKey(
-        User,
+        UserProfile,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -27,12 +27,8 @@ class Review(models.Model):
         blank=False,
         null=False
     )
-    title = models.CharField(
-        max_length=40,
-        blank=False,
-        null=False
-    )
-    content = models.TextField(
+
+    review = models.TextField(
         max_length=500
     )
     rating = models.IntegerField(
@@ -45,10 +41,7 @@ class Review(models.Model):
         null=False
     )
 
-    is_approved = models.BooleanField(
-        default=False
-    )
 
     def __str__(self):
-        """ String representation of Review title """
-        return self.title
+        """ String representation of Prodcut Review """
+        return self.product.name

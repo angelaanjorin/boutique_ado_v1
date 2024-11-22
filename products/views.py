@@ -65,7 +65,7 @@ def product_detail(request, product_id):
     """ A view to show individual product details """
 
     product = get_object_or_404(Product, pk=product_id)
-    reviews = Review.objects.filter(product=product, is_approved=True).order_by('-created_on')  # Get approved reviews
+    reviews = Review.objects.filter(product=product).order_by('-created_on')  # Get approved reviews
     review_form = ReviewForm()
 
 
