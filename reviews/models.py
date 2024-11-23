@@ -22,7 +22,7 @@ class Review(models.Model):
         blank=True,
         related_name="reviews"
     )
-    created_on = models.DateField(
+    created_on = models.DateTimeField(
         auto_now_add=True,
         blank=False,
         null=False

@@ -7,12 +7,16 @@
         <form class="mb-3" action="{% url 'add_review' product.id %}" method="POST">
             {% csrf_token %}
             <div class="rating-div form-floating mb-2">
-                <button type="submit" class="rating-hex fa fa-star fa-2x hex-1" data-hex="1" id="first"></button>
-                <button type="submit" class="rating-hex fa fa-star fa-2x hex-2" data-hex="2" id="second"></button>
-                <button type="submit" class="rating-hex fa fa-star fa-2x hex-3" data-hex="3" id="third"></button>
-                <button type="submit" class="rating-hex fa fa-star fa-2x hex-4" data-hex="4" id="fourth"></button>
-                <button type="submit" class="rating-hex fa fa-star fa-2x hex-5" data-hex="5" id="fifth"></button>
+                <button type="button" class="rating-hex fa fa-star fa-2x hex-1" data-hex="1" id="first"></button>
+                <button type="button" class="rating-hex fa fa-star fa-2x hex-2" data-hex="2" id="second"></button>
+                <button type="button" class="rating-hex fa fa-star fa-2x hex-3" data-hex="3" id="third"></button>
+                <button type="button" class="rating-hex fa fa-star fa-2x hex-4" data-hex="4" id="fourth"></button>
+                <button type="button" class="rating-hex fa fa-star fa-2x hex-5" data-hex="5" id="fifth"></button>
                 <input type="hidden" name="rating" class="rating-field visually-hidden" value="0">
+                 <!-- Rating Error Handling -->
+                {% for error in review_form.rating.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-floating mb-2">
                 {% render_field review_form.review|add_required_class:"is-required" class="form-control" %}

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.functions import Lower
+from django.db.models import Avg, Count
 
 from .models import Product, Category
 from .forms import ProductForm
@@ -13,7 +14,10 @@ from reviews.forms import ReviewForm
 def all_products(request):
     """ A view to show all products, including sorting and search queries """
 
-    products = Product.objects.all()
+    products = Product.objects.all().annotate(
+        avg_rating=Avg('reviews__rating'),
+        review_count=Count('reviews')
+    )
     query = None
     categories = None
     sort = None
@@ -63,16 +67,26 @@ def all_products(request):
 
 def product_detail(request, product_id):
     """ A view to show individual product details """
-
+    user_review = None
     product = get_object_or_404(Product, pk=product_id)
-    reviews = Review.objects.filter(product_id=product_id).order_by('-created_on')  
+
+    #Retrieve the user´s review if authenticated
+    if request.user.is_authenticated:
+        profile = request.user.userprofile
+        user_review = Review.objects.filter(product=product, user=profile).first()
+    
+    # reviews
     review_form = ReviewForm()
-
-
+    reviews = Review.objects.all().filter(
+        product=product).order_by('-created_on')
+    review_count = reviews.count()  
+    
     context = {
         'product': product,
         'reviews': reviews,
         'review_form' : review_form,
+        'user_review' : user_review,
+        'review_count' : review_count,
     }
 
     return render(request, 'products/product_detail.html', context)

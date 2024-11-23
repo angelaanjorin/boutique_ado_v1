@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.http import HttpResponse
 
-from .models import Review
 from products.models import Product
+
+from .models import Review
 from .forms import ReviewForm
+
 
 @login_required()
 def add_review(request, product_id):
@@ -33,14 +35,10 @@ def add_review(request, product_id):
             review.save()
 
             # Updates product rating on product object
-            if product.reviews.exists():
-                product.rating = round(product.reviews.aggregate(Avg('rating'))['rating__avg'], 2)
-            else:
-                product.rating = 0
-            product.save()
-
             reviews = product.reviews.all()
             review_count = reviews.count()
+            print(f"Reviews for {product.name}: {reviews}")
+            print(f"Review count: {review_count}")
 
             if review_count > 0:
                 avg_rating = round(reviews.aggregate(Avg('rating'))['rating__avg'], 1)
@@ -53,32 +51,24 @@ def add_review(request, product_id):
             request.session['show_bag_summary'] = False
             messages.success(request, "Review added successfully.")
 
-            return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, "Form invalid, please try again.")
+            messages.error(request, "Star Ratings missing, please try again.")
 
+        return redirect(reverse('product_detail', args=[product.id]))
     # Handles View Rendering
     else:
         form = ReviewForm()
 
-    # Calculate average rating and review count
-    reviews = product.reviews.all()
-    review_count = reviews.count()
-
-    if review_count > 0:
-        avg_rating = round(reviews.aggregate(Avg('rating'))['rating__avg'], 1)
-    else:
-        avg_rating = 0
-
     # Sets page template
-    template = 'reviews/add_review.html'
+    template = 'products/product_detail.html'
 
     # Sets current product & form content
     context = {
         'form': form,
         'product': product,
-        'avg_rating': avg_rating,
-        'review_count': review_count,
+        'avg_rating': product.rating,
+        'review_count': product.reviews.count(),
+        'review' : product.reviews.all(),
     }
 
     return render(request, template, context)

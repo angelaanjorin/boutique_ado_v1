@@ -43,11 +43,15 @@
                         </a>
                     </p>
                     {% endif %}
-                    {% if product.rating %}
-                        <small class="text-muted"><i class="fas fa-star me-2 fa-solid" style="color:gold"></i>{{ product.rating }} / 5</small>
+                    {% if review_count %}
+                        <small class="text-muted">
+                            <i class="fas fa-star me-2 fa-solid" style="color:gold"></i>
+                            {{ product.rating }}/5 of {{ review_count }} REVIEW{% if review_count != 1 %}S{% endif %}
+                        </small>
                     {% else %}
-                        <small class="text-muted">No Rating</small>
+                        <small class="text-muted">No reviews yet.</small>
                     {% endif %}
+
                     <form class="form" action="{% url 'add_to_bag' product.id %}" method="POST">
                         {% csrf_token %}
                         <div class="form-row">
@@ -163,7 +167,7 @@
                         {% endif %}
                         <div class=" row review mt-4 px-3">
                             {% if reviews %}
-                            <h5 class="my-2">Reviews:</h5>
+                            <h3 class="my-2 text-center">Reviews:</h3>
                             {% for review in reviews %}
                             <div class="col-12 col-lg-10 offset-lg-1">
                                 <div class="card mb-3 p-3 review-container bg-white shadow-sm">
