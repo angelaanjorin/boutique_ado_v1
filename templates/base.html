@@ -62,10 +62,10 @@
     <!-- Postload JavaScript -->
     {% block postloadjs %}
         <!-- Toasts / Messages JS-->
-        <script>
-             $('.toast').toast('show');
-        </script>
+        <script src="{% static 'js/toast.js' %}"></script>
+        <!-- Banner-->
         <script src="{% static 'js/banner.js' %}"></script>
+        <!--quantity-->
         <script src="{% static 'js/quantity_inputs.js' %}"></script>   
         <!-- Stripe JS -->
         <script src="https://js.stripe.com/v3/"></script>

@@ -522,47 +522,24 @@ button.wishlist {
 input[name='q']::placeholder {
     color: #aab7c4;
 }
-.rating-hex-small {
-    font-size: 24px;
-    margin-right: -3px;
-    transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out;
-    -o-transition: all .2s ease-in-out;
+.rating-hex {
+    color: gray; /* Default color */
+    cursor: pointer;
+    background: none;
+    border: none;
 }
 
-.rating-hex-true {
-    color: var(--hex-yellow);
+.rating-hex.rating-hex-selected {
+    color: gold; /* Highlight color for selected stars */
 }
 
-.rating-hex-false {
-    color: var(--hex-grey);
-}
-
-.rating-div p {
-    font-size: 12px;
-    text-decoration: underline !important;
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
-    -webkit-text-decoration-color: rgba(15, 116, 138, 0) !important;
-    text-decoration-color: rgba(15, 116, 138, 0) !important;
-    transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out;
-    -o-transition: all .2s ease-in-out;
+.rating-hex.rating-hex-hover {
+    color: gold; /* Highlight color for hovered stars */
 }
 
 .product-rating-link:hover .rating-div p {
         -webkit-text-decoration-color: rgba(15, 116, 138, 1) !important;
         text-decoration-color: rgba(15, 116, 138, 1) !important;
-}
-
-.product-rating-link:hover .rating-hex-true {
-        color: var(--hex-yellow-hov);
-}
-
-.product-rating-link:hover .rating-hex-false {
-        color: var(--hex-grey-hov);
 }
 
 /* ------------------------------- bootstrap toasts */

@@ -43,5 +43,9 @@ class Review(models.Model):
 
 
     def __str__(self):
-        """ String representation of Prodcut Review """
+        """ String representation of Product Review """
         return self.product.name
+
+
+    def get_rating_range(self):
+        return range(self.rating)
