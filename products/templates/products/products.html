@@ -105,7 +105,7 @@
                                         
                                         <!-- Product Avg Rating of product reviews -->
                                         {% if product.avg_rating %}
-                                            <p>Average Rating: {{ product.avg_rating }}</p>
+                                            <p>Average Rating: {{ product.avg_rating|floatformat:2  }}</p>
                                             <p>Review Count: {{ product.review_count }}</p>
                                         {% else %}
                                             <small class="text-muted">No reviews yet.</small>

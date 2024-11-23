@@ -522,18 +522,18 @@ button.wishlist {
 input[name='q']::placeholder {
     color: #aab7c4;
 }
-.rating-hex {
+.rating-star {
     color: gray; /* Default color */
     cursor: pointer;
     background: none;
     border: none;
 }
 
-.rating-hex.rating-hex-selected {
+.rating-star.rating-star-selected {
     color: gold; /* Highlight color for selected stars */
 }
 
-.rating-hex.rating-hex-hover {
+.rating-star.rating-star-hover {
     color: gold; /* Highlight color for hovered stars */
 }
 

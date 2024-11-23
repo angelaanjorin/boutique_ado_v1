@@ -38,8 +38,8 @@
                     <p class="lead mb-0 text-left font-weight-bold"><strong>${{ product.price }}</strong></p>
                     {% if product.category %}
                     <p class="small mt-1 mb-0">
-                        <a class="text-muted" href="{% url 'products' %}?category={{ product.category.name }}">
-                            <i class="fas fa-tag me-2"></i>{{ product.category.friendly_name }}
+                        <a href="{% url 'products' %}?category={{ product.category.name }}" class="category-badge m-2 d-flex text-decoration-none align-items-center">
+                            <span class="p-2 weight-semibold text-uppercase badge badge-white text-black rounded-0 border border-dark">{{ product.category.friendly_name }}</span>
                         </a>
                     </p>
                     {% endif %}
