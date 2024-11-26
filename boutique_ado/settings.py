@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
     '.gitpod.io',
-    '127.0.0.1',]
+    '127.0.0.1',
+    '.herokuapp.com',
+]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
 
