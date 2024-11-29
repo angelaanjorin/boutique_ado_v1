@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.db.models.functions import Lower
 from django.db.models import Avg, Count
 
-from .models import Product, Category
+from .models import Product, PrimaryCategory, SpecialCategory
 from .forms import ProductForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
@@ -40,8 +40,9 @@ def all_products(request):
 
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
-            products = products.filter(category__name__in=categories)
-            categories = Category.objects.filter(name__in=categories)
+            products = products.filter(primary_category__name__in=categories)
+            categories = PrimaryCategory.objects.filter(name__in=categories)
+
 
         if 'q' in request.GET:
             query = request.GET['q']
