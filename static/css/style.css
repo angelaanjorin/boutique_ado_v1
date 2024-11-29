@@ -478,6 +478,10 @@ background-color: black;
     cursor: not-allowed;
 }
 
+.btn-allowed {
+    background-color: var(--cordovan);
+}
+
 button.wishlist {
     color: var(--orange);
     font-size: 25px;

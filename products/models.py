@@ -2,6 +2,36 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import uuid
 
+
+class ProductSize(models.Model):
+    """
+    Model to manage sizes and stock amounts for products.
+    """
+    SIZE_CHOICES = [
+        ('XS', 'Extra Small'),
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+    ]
+
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='sizes'
+    )
+    size = models.CharField(max_length=2, choices=SIZE_CHOICES)
+    stock = models.IntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(1000)]
+    )
+
+    class Meta:
+        unique_together = ('product', 'size')  # Ensure unique size for each product
+
+    def __str__(self):
+        return f"{self.product.name} - {self.size} (Stock: {self.stock})"
+
+
 class PrimaryCategory(models.Model):
     """
     Categories that are unique to a product, like hair_wigs, hair_extensions, etc.
@@ -94,9 +124,25 @@ class Product(models.Model):
             return self.sale_price
         return self.price
 
+    
     def save(self, *args, **kwargs):
+        # Set the discount value based on price and sale_price
         self.discount = self.price_discount
+        
+        # Determine the stock status
         self.in_stock = self.product_in_stock
+
         if not self.on_sale:
+            # Clear sale price if product is not on sale
             self.sale_price = None
+
+        if self.has_sizes:
+            # If the product has sizes, calculate total stock from size-specific records
+            self.stock_amount = sum(
+                size.stock for size in self.sizes.all()
+            )
+        else:
+            # If the product does not have sizes, ensure size-specific records are removed
+            self.sizes.all().delete()
+
         super().save(*args, **kwargs)

@@ -1,16 +1,23 @@
 from django.contrib import admin
-from .models import Product, PrimaryCategory, SpecialCategory
+from .models import ProductSize, Product, PrimaryCategory, SpecialCategory
+
+
+class ProductSizeInline(admin.TabularInline):
+    model = ProductSize
+    extra = 1  
+    min_num = 0  
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'primary_category',  # Display the primary category
-        'get_special_categories',  # Display special categories
+        'primary_category',  
+        'get_special_categories',  
         'price',
         'rating',
         'image',
     )
+    inlines = [ProductSizeInline]
     ordering = ('name',)  # Orders products by name
 
     def get_special_categories(self, obj):

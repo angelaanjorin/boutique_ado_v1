@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.db.models import Avg, Count
+from django.db.models import Sum
 
 from .models import Product, PrimaryCategory, SpecialCategory
 from .forms import ProductForm
@@ -76,6 +77,9 @@ def product_detail(request, product_id):
         profile = request.user.userprofile
         user_review = Review.objects.filter(product=product, user=profile).first()
     
+    # Fetch size-specific stock data if the product has sizes
+    sizes = product.sizes.all() if product.has_sizes else None
+    
     # reviews
     review_form = ReviewForm()
     reviews = Review.objects.all().filter(
@@ -84,6 +88,7 @@ def product_detail(request, product_id):
     
     context = {
         'product': product,
+        'sizes': sizes,
         'reviews': reviews,
         'review_form' : review_form,
         'user_review' : user_review,
